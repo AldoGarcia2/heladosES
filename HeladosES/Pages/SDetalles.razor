@@ -1,0 +1,46 @@
+﻿@page "/sdetalles/{id:int}"
+@*@using Models*@
+@using Services
+@inject ISaborHService SaborHService
+
+<MudText Typo="Typo.h5">Detalles Sabores Helados</MudText>
+
+
+@if (saborH == null)
+{
+    <p><em>Cargando...</em></p>
+}
+else
+{
+    <MudCard>
+        <MudCardHeader Class="blue lighten-2">
+            <CardHeaderContent>
+                <MudText Typo="Typo.h6" Class="d-flex justify-center">@saborH.Nombre</MudText>
+            </CardHeaderContent>
+        </MudCardHeader>
+        <MudCardContent>
+            <MudText Typo="Typo.body2">@saborH.Estado</MudText>
+        </MudCardContent>
+        <MudCardActions class="d-flex justify-center">
+            @*<div class="d-flex justify-center" >*@
+            <img src="@saborH.Imagen" alt="@saborH.Nombre" Elevation="25" Class="rounded-lg" width="250" height="250" />
+
+            @*</div>*@
+        </MudCardActions>
+    </MudCard>
+}
+
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+
+    SaborH saborH = new SaborH();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (id > 0)
+            saborH = await SaborHService.GetById(id);
+    }
+
+}

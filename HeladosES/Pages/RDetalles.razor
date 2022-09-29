@@ -1,0 +1,46 @@
+﻿@page "/rdetalles/{id:int}"
+@using Models
+@using Services
+@inject IRecipienteService RecipientesService
+
+<MudText Typo="Typo.h5">Detalles Recipientes</MudText>
+
+
+@if (recipiente == null)
+{
+    <p><em>Cargando...</em></p>
+}
+else
+{
+        <MudCard >
+            <MudCardHeader Class="blue lighten-2">
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h6" Class="d-flex justify-center">@recipiente.Nombre</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudText Typo="Typo.body2">@recipiente.Estado</MudText>
+                <MudText Typo="Typo.body2">@recipiente.Tamaño</MudText>
+            </MudCardContent>
+            <MudCardActions class="d-flex justify-center" >
+                @*<div class="d-flex justify-center" >*@
+                    <img src="@recipiente.Imagen" alt="@recipiente.Nombre" Elevation="25" Class="rounded-lg" width="250" height="250" />
+
+                @*</div>*@
+            </MudCardActions>
+        </MudCard>
+}
+
+
+    @code {
+        [Parameter]
+        public int id { get; set; }
+
+        Recipientes recipiente = new Recipientes();
+
+protected override async Task OnInitializedAsync()
+    {
+        if (id > 0)
+            recipiente = await RecipientesService.GetById(id);
+    }
+    }

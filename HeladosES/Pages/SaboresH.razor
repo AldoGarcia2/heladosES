@@ -1,0 +1,43 @@
+﻿@page "/saborH"
+@using Models
+@using Services
+@inject ISaborHService SaborHService
+
+<MudText Typo="Typo.h3">Sabores helados</MudText>
+@if (sabor == null)
+{
+    <p>Cargando</p>
+}
+else
+{
+    <MudGrid>
+        @foreach (var item in sabor)
+        {
+            <MudItem xs="12" sm="10" md="6" lg="4">
+                <MudCard>
+                    <MudCardMedia Image="@item.Imagen" Height="200" Width="60" />
+                    <MudCardHeader Class="blue darken-1">
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h6">@item.Nombre</MudText>
+                        </CardHeaderContent>
+                    </MudCardHeader>
+                    <MudCardContent>
+
+                    </MudCardContent>
+                    <MudCardActions>
+                        <MudButton Link="@($"/SDetalles/{item.Id}")" Variant="Variant.Text" Color="Color.Primary">Ver Sabor</MudButton>
+                    </MudCardActions>
+                </MudCard>
+            </MudItem>
+        }
+    </MudGrid>
+}
+
+
+@code {
+    IEnumerable<SaborH> sabor = new List<SaborH>();
+    protected override async Task OnInitializedAsync()
+    {
+        sabor = await SaborHService.GetAll();
+    }
+}
